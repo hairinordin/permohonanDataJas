@@ -2,11 +2,8 @@
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Borang extends CI_Controller {
+class Borang extends MY_Controller {
     
-    
-    
-
     public function __construct() {
         parent::__construct();
         
@@ -44,8 +41,7 @@ class Borang extends CI_Controller {
  
         $data['captchaImg'] = $this->generate_captcha();
         
-        print_r($data);
-        $this->load->view('v_borang', $data);
+        $this->render('v_borang', $data);
     }
 
     public function hantar() {
@@ -183,7 +179,7 @@ class Borang extends CI_Controller {
         }
         
         $this->output->enable_profiler(true);
-        $this->load->view('v_senarai', $data);
+        $this->render('v_senarai', $data);
     }
     
     function generate_captcha() {
@@ -195,7 +191,6 @@ class Borang extends CI_Controller {
 
         return $captcha['image'];
     }
-    
 
     //REFRESH CAPTCHA
     public function refresh() {

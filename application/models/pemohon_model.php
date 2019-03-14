@@ -8,51 +8,37 @@ class Pemohon_model extends CI_Model {
         $this->load->database();
     }
 
-    public function permohonan_baru($permohonan) {
+    public function get_all_permohonan(){
+        
+        return $this->db->get('pemohon')->result_array();
+    }
+
+    public function get_lampiran_by_id($id){
+        return $this->db->get_where('lampiran', array('id_pemohon' => $id))->result_array();
+    }
+
+    public function get_jenisdata_by_id($id){
+        return $this->db->get_where('jenis_data', array('id_pemohon' => $id))->result_array();
+    }
+
+    public function permohonan_baru($permohonan) { //Simpan maklumat pemohon
 
         $this->db->insert('pemohon', $permohonan);
 
         return $this->db->insert_id();
     }
 
-    public function jenis_data($jenis) {
+    public function jenis_data($jenis) { //Simpan maklumat jenis data dipohon
 
         $this->db->insert('jenis_data', $jenis);
 
         return $this->db->insert_id();
     }
+    
+    public function lampiran($data){ //Simpan maklumat lampiran pemohon
+        $this->db->insert('lampiran', $data);
 
-
-
-    public function pilihan_soalan_baru($soalan) {
-
-        $this->db->insert('soalan_pilihan', $soalan);
-
-        return true;
-    }
-
-    public function set_soalan($kat) {
-        $sql = "SELECT *, soalan.id AS soalan_id FROM soalan_set 
-                LEFT JOIN soalan_modul ON soalan_set.id_modul = soalan_modul.id
-                LEFT JOIN soalan ON soalan.id_modul = soalan_modul.id
-                WHERE soalan_set.kat_premis = ?      
-                ORDER BY soalan.id_modul";
-        $query = $this->db->query($sql, array($kat));
-
-        return $query->result();
-    }
- 
-    public function get_modul($kat){
-        $sql = "SELECT 	*
-	FROM 
-	soalan_set 
-	LEFT JOIN soalan_modul ON soalan_modul.id = soalan_set.id_modul
-        where soalan_set.kat_premis = ?
-        ";
-        
-        $query = $this->db->query($sql, array($kat));
-        
-        return $query->result();
+        return $this->db->insert_id();
     }
 
 }
